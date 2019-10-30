@@ -5,16 +5,33 @@ import './App.css';
 class Hello extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {class: "off", label: "Нажми"};
+    this.state = {date: new Date(), name: "Tom"};
+  }
 
-    this.press = this.press.bind(this);
+  componentDidMount() {
+    this.timerId = setInterval(
+        ()=> this.tick(),
+        1000
+    );
   }
-  press(){
-    let className = (this.state.class==="off")?"on":"off";
-    this.setState({class: className});
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
   }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
   render() {
-    return <button onClick={this.press} className={this.state.class}>{this.state.label}</button>;
+    return (
+        <div>
+          <h1>Привет, {this.state.name}</h1>
+          <h2>Текущее время {this.state.date.toLocaleTimeString()}.</h2>
+        </div>
+    );
   }
 }
 
